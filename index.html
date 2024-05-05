@@ -15,6 +15,8 @@
 <meta name="theme-color" content="#ffffff">
 
 	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Karla:ital,wght@0,300;1,300&family=Tillana:wght@500&family=Rubik:ital@0;1&family=Space+Grotesk:wght@300;400;500;600&family=Work+Sans:wght@200;300&display=swap');
+
 		@font-face {
 			font-family: 'TF2 Build';
 			src: url(tf2build.ttf);
@@ -50,11 +52,11 @@
 			display: none;
 		}
 
-		p {
+		p#dc {
 			position: absolute;
 			font-family: 'TF2 Build';
-			color: #EABAB970;
-			font-size: 50px;
+			color: #F1958AA0;
+			font-size: 45px;
 			bottom: 10px;
 			left: 50px;
 		}
@@ -67,6 +69,29 @@
 			opacity: 0 !important;
 			pointer-events: none;
 		}
+
+		.bottomright {
+			position: absolute;
+			bottom: 0;
+			right: 100px;
+			font-size: 16px;
+			font-family: 'TF2 Segundo';
+			color: #98C2B7;
+		}
+
+		.git img {
+			position: absolute;
+			bottom: 10px;
+			right: 15px;
+			transform: rotate(3deg);
+			border-radius: 10px;
+			filter: drop-shadow(5px 5px 40px #bbb5f2ad);
+			transition: transform 1s, filter 1s;
+		}
+
+		.git img:hover {
+			transform: scaleX(1.05) scaleY(1.05) rotate(5deg);
+		}
 	</style>
 </head>
 <body>
@@ -74,7 +99,14 @@
 <img id="dooleyactive" class="hidden" onmouseup="toggledooley()" src="holydooley.jpg">
 <img id="dooleyfeed" src="killfeed.png">
 
-<p><span id="dooleycounter">0</span> dooleys</p>
+<p id="dc"><span id="dooleycounter">0</span> dooleys</p>
+
+<div class="bottomright">
+			<p>dooleyed by @pocketrice :></p>
+		</div>
+		<div class="git">
+			<a href="https://github.com/pocketrice" target="_blank"><img src="gsc.png" width="70px"></a>
+		</div>
 
 <script>
 
@@ -107,12 +139,12 @@ function dooley() {
 	 }, 1000);
 	
 	dcounter.textContent = ++dc;
-	dcounter.style.fontSize = "100px";
-	dcounter.style.color = "#F7A78970";
+	dcounter.style.fontSize = "90px";
+	dcounter.style.color = "#FF564D80";
 
 	setTimeout(() => { 
-		dcounter.style.fontSize = "50px"; 
-		dcounter.style.color = "#EABAB950";
+		dcounter.style.fontSize = "45px"; 
+		dcounter.style.color = "#F1958AA0";
 	 }, 500);
 
 	setTimeout(() => {
