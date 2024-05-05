@@ -14,8 +14,6 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff">
 
-
-
 	<style>
 		@font-face {
 			font-family: 'TF2 Build';
@@ -30,21 +28,26 @@
 		body, html {
 			padding: 0;
 			margin: 0;
+			cursor: url(https://cdn.custom-cursor.com/db/8004/32/game-team-fortress-2-spy-and-knife-cursor.png), auto;
 		}
 
 		img {
 			position: absolute;
 			opacity: 1;
+		}
+
+		#dooleyhidden, #dooleyactive {
 			width: 100%;
 			height: 100%;
 		}
 
-		#dooleyhidden {
-
-		}
-
-		#dooleyactive {
-
+		#dooleyfeed {
+			transition: opacity 3s ease;
+			top: 40px;
+			left: 10px;
+			width: 200px;
+			opacity: 1;
+			display: none;
 		}
 
 		p {
@@ -69,6 +72,8 @@
 <body>
 <img id="dooleyhidden" onmousedown="toggledooley(); dooley()" src="holysleep.jpg">
 <img id="dooleyactive" class="hidden" onmouseup="toggledooley()" src="holydooley.jpg">
+<img id="dooleyfeed" src="killfeed.png">
+
 <p><span id="dooleycounter">0</span> dooleys</p>
 
 <script>
@@ -77,6 +82,7 @@ var dc = 0;
 const imgproc = document.getElementById("dooleyhidden");
 const imgshow = document.getElementById("dooleyactive");
 const dcounter = document.getElementById("dooleycounter");
+const dfeed = document.getElementById("dooleyfeed");
 
 function toggledooley() {
 	console.log("TEST");
@@ -86,20 +92,37 @@ function toggledooley() {
 
 function dooley() {
 	var dooleysfx = new Audio("dooley.mp3");
+	var pansfx = new Audio("pan.mp3");
+	var stabsfx = new Audio("backstab.mp3");
+
 	confetti({
 		particleCount: 500,
 		spread: 250,
 		startVelocity: 100
 	});
-
 	dooleysfx.play();
+	setTimeout(() => { 
+		stabsfx.play();
+		pansfx.play();
+	 }, 1000);
+	
 	dcounter.textContent = ++dc;
 	dcounter.style.fontSize = "100px";
 	dcounter.style.color = "#F7A78970";
+
 	setTimeout(() => { 
 		dcounter.style.fontSize = "50px"; 
 		dcounter.style.color = "#EABAB950";
 	 }, 500);
+
+	setTimeout(() => {
+		dfeed.style.display = "block";
+	}, 1100)
+
+	setTimeout(() => {
+		dfeed.style.display = "none";
+	}, 3100)
+	
 	
 }
 </script>
