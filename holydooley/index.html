@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+	<title>𝗵𝗼𝗹𝘆 𝗱𝗼𝗼𝗹𝗲𝘆</title>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+
+	<style>
+		@font-face {
+			font-family: 'TF2 Build';
+			src: url(tf2build.ttf);
+		}
+
+		@font-face {
+			font-family: 'TF2 Segundo';
+			src: url(tf2segundo.ttf);
+		}
+
+		body, html {
+			padding: 0;
+			margin: 0;
+		}
+
+		img {
+			position: absolute;
+			opacity: 1;
+			width: 100%;
+			height: 100%;
+		}
+
+		#dooleyhidden {
+
+		}
+
+		#dooleyactive {
+
+		}
+
+		p {
+			position: absolute;
+			font-family: 'TF2 Build';
+			color: #EABAB970;
+			font-size: 50px;
+			bottom: 10px;
+			left: 50px;
+		}
+
+		#dooleycounter {
+			transition: all 0.5s ease;
+		}
+
+		.hidden {
+			opacity: 0 !important;
+			pointer-events: none;
+		}
+	</style>
+</head>
+<body>
+<img id="dooleyhidden" onmousedown="toggledooley(); dooley()" src="holysleep.jpg">
+<img id="dooleyactive" class="hidden" onmouseup="toggledooley()" src="holydooley.jpg">
+<p><span id="dooleycounter">0</span> dooleys</p>
+
+<script>
+
+var dc = 0;
+const imgproc = document.getElementById("dooleyhidden");
+const imgshow = document.getElementById("dooleyactive");
+const dcounter = document.getElementById("dooleycounter");
+
+function toggledooley() {
+	console.log("TEST");
+	imgproc.classList.toggle("hidden");
+	imgshow.classList.toggle("hidden");
+}
+
+function dooley() {
+	var dooleysfx = new Audio("dooley.mp3");
+	confetti({
+		particleCount: 500,
+		spread: 250,
+		startVelocity: 100
+	});
+
+	dooleysfx.play();
+	dcounter.textContent = ++dc;
+	dcounter.style.fontSize = "100px";
+	dcounter.style.color = "#F7A78970";
+	setTimeout(() => { 
+		dcounter.style.fontSize = "50px"; 
+		dcounter.style.color = "#EABAB950";
+	 }, 500);
+	
+}
+</script>
+</body>
+</html>
