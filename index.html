@@ -5,18 +5,19 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-	<title>𝗵𝗼𝗹𝘆 𝗱𝗼𝗼𝗹𝗲𝘆</title>
+	<script src="https://unpkg.com/tone@next/build/Tone.js"></script>
+	<title>𝗵𝗼𝗹𝘆 𝗱𝗼𝗼𝗹𝗲𝘆!</title>
 
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+<link rel="manifest" href="favicon/site.webmanifest">
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff">
 
-
-
 	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Karla:ital,wght@0,300;1,300&family=Tillana:wght@500&family=Rubik:ital@0;1&family=Space+Grotesk:wght@300;400;500;600&family=Work+Sans:wght@200;300&display=swap');
+
 		@font-face {
 			font-family: 'TF2 Build';
 			src: url(tf2build.ttf);
@@ -30,28 +31,33 @@
 		body, html {
 			padding: 0;
 			margin: 0;
+			cursor: url(https://cdn.custom-cursor.com/db/8004/32/game-team-fortress-2-spy-and-knife-cursor.png), auto;
 		}
 
 		img {
 			position: absolute;
 			opacity: 1;
+		}
+
+		#dooleyhidden, #dooleyactive {
 			width: 100%;
 			height: 100%;
 		}
 
-		#dooleyhidden {
-
+		#dooleyfeed {
+			transition: opacity 3s ease;
+			top: 40px;
+			left: 10px;
+			width: 200px;
+			opacity: 1;
+			display: none;
 		}
 
-		#dooleyactive {
-
-		}
-
-		p {
+		p#dc {
 			position: absolute;
 			font-family: 'TF2 Build';
-			color: #EABAB970;
-			font-size: 50px;
+			color: #F47F8FA0;
+			font-size: 45px;
 			bottom: 10px;
 			left: 50px;
 		}
@@ -64,12 +70,44 @@
 			opacity: 0 !important;
 			pointer-events: none;
 		}
+
+		.bottomright {
+			position: absolute;
+			bottom: 5px;
+			right: 100px;
+			font-size: 17px;
+			font-family: 'TF2 Segundo';
+			color: #98C2B7C0;
+		}
+
+		.git img {
+			position: absolute;
+			bottom: 10px;
+			right: 15px;
+			transform: rotate(3deg);
+			border-radius: 10px;
+			filter: drop-shadow(5px 5px 40px #A4F2E6ad);
+			transition: transform 1s, filter 1s;
+		}
+
+		.git img:hover {
+			transform: scaleX(1.05) scaleY(1.05) rotate(5deg);
+		}
 	</style>
 </head>
 <body>
 <img id="dooleyhidden" onmousedown="toggledooley(); dooley()" src="holysleep.jpg">
 <img id="dooleyactive" class="hidden" onmouseup="toggledooley()" src="holydooley.jpg">
-<p><span id="dooleycounter">0</span> dooleys</p>
+<img id="dooleyfeed" src="killfeed.png">
+
+<p id="dc"><span id="dooleycounter">0</span> dooleys</p>
+
+<div class="bottomright">
+			<p>dooleyed by @pocketrice :></p>
+		</div>
+		<div class="git">
+			<a href="https://github.com/pocketrice" target="_blank"><img src="gsc.png" width="70px"></a>
+		</div>
 
 <script>
 
@@ -77,31 +115,154 @@ var dc = 0;
 const imgproc = document.getElementById("dooleyhidden");
 const imgshow = document.getElementById("dooleyactive");
 const dcounter = document.getElementById("dooleycounter");
+const dfeed = document.getElementById("dooleyfeed");
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 function toggledooley() {
-	console.log("TEST");
 	imgproc.classList.toggle("hidden");
 	imgshow.classList.toggle("hidden");
 }
 
 function dooley() {
-	var dooleysfx = new Audio("dooley.mp3");
+	const dooleysfx = new Audio("sfx/dooley_bc.mp3");
+	//const pansfx = new Audio("sfx/pan.mp3"); //pitchBendAudioBuffer(loadAudioBuffer(audioContext, "sfx/pan.mp3"), Math.floor(Math.random() * 500 - 250));     
+	const stabsfx = new Audio((cf(2)) ? "sfx/backstab.mp3" : "sfx/backstabalt.wav");
+
+    dooleysfx.volume = 0.1;
+    stabsfx.volume = 0.2;
+    //pansfx.volume = 0.2;
+
 	confetti({
 		particleCount: 500,
 		spread: 250,
 		startVelocity: 100
 	});
-
 	dooleysfx.play();
-	dcounter.textContent = ++dc;
-	dcounter.style.fontSize = "100px";
-	dcounter.style.color = "#F7A78970";
 	setTimeout(() => { 
-		dcounter.style.fontSize = "50px"; 
-		dcounter.style.color = "#EABAB950";
-	 }, 500);
+		stabsfx.play();
+		//pansfx.play();
+		//playAudioBuffer(pansfx);
+
+		if (cf(25)) {
+			const bonussfx = new Audio((cf()) ? "sfx/dom.wav" : "sfx/nem.wav");
+			bonussfx.volume = 0.1;
+			bonussfx.play();
+		}
+	 }, 1000);
+
+	setTimeout(() => {
+		if (dc % 5 == 0) {
+			const domsfx = randomSfx("sfx/dom0*.wav", 7);
+			domsfx.volume = 0.4;
+			domsfx.play();
+		}
+		else if (cf(2)) {
+			const painsfx = randomSfx("sfx/pain0*.wav", 12);
+			painsfx.volume = 0.2;
+			painsfx.play();
+		}
+		else if (cf(10)) {
+			const jabsfx = randomSfx("sfx/jab0*.wav", 9);
+			jabsfx.volume = 0.15;
+			jabsfx.play();
+		}
+	}, 1300);
 	
+	dcounter.textContent = ++dc;
+	dcounter.style.fontSize = "75px";
+	dcounter.style.color = "#FF9CBA80";
+
+	setTimeout(() => { 
+		dcounter.style.fontSize = "45px"; 
+		dcounter.style.color = "#F47F8FA0";
+	 }, 500);
+
+	setTimeout(() => {
+		dfeed.style.display = "block";
+	}, 1100)
+
+	setTimeout(() => {
+		dfeed.style.display = "none";
+	}, 3100)
 }
+
+function loadAudioBuffer(url) { // GPT
+	 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+	return new Promise((resolve, reject) => {
+		fetch(url)
+		.then(response => response.arrayBuffer())
+		.then(arrayBuffer => {
+			// Decode audio data into AudioBuffer
+			audioContext.decodeAudioData(arrayBuffer, decodedBuffer => {
+				resolve(decodedBuffer);
+			}, error => {
+				reject(error);
+			});
+		})
+		.catch(error => {
+			reject(error);
+		})
+	})
+}
+
+function playAudioBuffer(audioBuffer) { // GPT
+	const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+	const source = audioContext.createBufferSource();
+	source.buffer = audioBuffer;
+
+	// Connect source -> destination
+	source.connect(audioContext.destination);
+
+    // Start!
+    source.start();
+}
+
+function pitchBendAudioBuffer(audioBuffer, cents) { // GPT
+	 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+	const source = audioContext.createBufferSource();
+	source.buffer = audioBuffer;
+
+	// Calculate playback rate multiplier based on pitch bend cents
+	const pitchBendFactor = Math.pow(2, cents / 1200);
+
+	// Create new AudioBuffer for pitch-bent sound
+	const outputBuffer = audioContext.createBuffer(
+		audioBuffer.numberOfChannels,
+		audioBuffer.length * pitchBendFactor,
+		audioBuffer.sampleRate
+	);
+
+	// Iterate over each channel of input buffer
+	for (let ch = 0; ch < audioBuffer.numberOfChannels; ch++) {
+		// Get channel data from input buffer
+		const inputData = audioBuffer.getChannelData(ch);
+
+		// Get channel data for output buffer
+		const outputData = outputBuffer.getChannelData(ch);
+
+		// Interp and pitch shift audio data
+		for (let i = 0; i < outputBuffer.length; i++) {
+			const index = i / pitchBendFactor;
+			const lowerIndex = Math.floor(index);
+			const upperIndex = Math.ceil(index);
+			const fraction = index - lowerIndex;
+
+      outputData[i] = inputData[lowerIndex] * (1 - fraction) + inputData[upperIndex] * fraction;
+		}
+	}
+
+	return outputBuffer;
+}
+
+function randomSfx(prefixUrl, range) {
+	return new Audio(prefixUrl.replace("*", Math.floor(Math.random() * range + 1)));
+}
+
+function cf(num) {
+	return (Math.floor(Math.random() * num) == 0);
+}
+
 </script>
 </body>
 </html>
