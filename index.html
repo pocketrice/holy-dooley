@@ -113,6 +113,10 @@
 <script>
 
 var dc = 0;
+var count = 200;
+var defaults = {
+  origin: { y: 0.7 }
+};
 const imgproc = document.getElementById("dooleyhidden");
 const imgshow = document.getElementById("dooleyactive");
 const dcounter = document.getElementById("dooleycounter");
@@ -275,10 +279,6 @@ function cf(num) {
 }
 
 function confettiRealistic() {
-	var count = 200;
-var defaults = {
-  origin: { y: 0.7 }
-};
 
 fire(0.25, {
   spread: 26,
