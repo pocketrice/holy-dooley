@@ -37,6 +37,7 @@
 		img {
 			position: absolute;
 			opacity: 1;
+
 		}
 
 		#dooleyhidden, #dooleyactive {
@@ -106,7 +107,7 @@
 			<p>dooleyed by @pocketrice :></p>
 		</div>
 		<div class="git">
-			<a href="https://github.com/pocketrice/holy-dooley" target="_blank"><img src="gsc.png" width="70px"></a>
+			<a href="https://github.com/pocketrice" target="_blank"><img src="gsc.png" width="70px"></a>
 		</div>
 
 <script>
@@ -156,15 +157,25 @@ function dooley() {
 			domsfx.volume = 0.4;
 			domsfx.play();
 		}
+		else if (dc % 50 == 0) {
+			const congasfx = new Audio("sfx/conga.wav");
+			congasfx.volume = 0.2;
+			congasfx.play();
+		}
 		else if (cf(2)) {
-			const painsfx = randomSfx("sfx/pain0*.wav", 12);
+			const painsfx = randomSfx("sfx/pain0*.wav", 23);
 			painsfx.volume = 0.2;
 			painsfx.play();
 		}
-		else if (cf(10)) {
+		else if (cf(8)) {
 			const jabsfx = randomSfx("sfx/jab0*.wav", 9);
 			jabsfx.volume = 0.15;
 			jabsfx.play();
+		}
+		else if (cf(8)) {
+			const othersfx = randomSfx("sfx/other0*.wav", 24);
+			othersfx.volume = 0.15;
+			othersfx.play();
 		}
 	}, 1300);
 	
