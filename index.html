@@ -123,7 +123,6 @@ function toggledooley() {
 	imgproc.classList.toggle("hidden");
 	imgshow.classList.toggle("hidden");
 }
-
 function dooley() {
 	const dooleysfx = new Audio("sfx/dooley_bc.mp3");
 	//const pansfx = new Audio("sfx/pan.mp3"); //pitchBendAudioBuffer(loadAudioBuffer(audioContext, "sfx/pan.mp3"), Math.floor(Math.random() * 500 - 250));     
@@ -133,11 +132,12 @@ function dooley() {
     stabsfx.volume = 0.2;
     //pansfx.volume = 0.2;
 
-	confetti({
-		particleCount: 500,
-		spread: 250,
-		startVelocity: 100
-	});
+	// confetti({
+	// 	particleCount: 500,
+	// 	spread: 250,
+	// 	startVelocity: 100
+	// });
+	confettiRealistic();
 	dooleysfx.play();
 	setTimeout(() => { 
 		stabsfx.play();
@@ -152,15 +152,15 @@ function dooley() {
 	 }, 1000);
 
 	setTimeout(() => {
+		if (dc % 50 == 0) {
+			const congasfx = new Audio("sfx/conga.wav");
+			congasfx.volume = 0.2;
+			congasfx.play();
+		}
 		if (dc % 5 == 0) {
 			const domsfx = randomSfx("sfx/dom0*.wav", 7);
 			domsfx.volume = 0.4;
 			domsfx.play();
-		}
-		else if (dc % 50 == 0) {
-			const congasfx = new Audio("sfx/conga.wav");
-			congasfx.volume = 0.2;
-			congasfx.play();
 		}
 		else if (cf(2)) {
 			const painsfx = randomSfx("sfx/pain0*.wav", 23);
@@ -272,6 +272,44 @@ function randomSfx(prefixUrl, range) {
 
 function cf(num) {
 	return (Math.floor(Math.random() * num) == 0);
+}
+
+function confettiRealistic() {
+	var count = 200;
+var defaults = {
+  origin: { y: 0.7 }
+};
+
+fire(0.25, {
+  spread: 26,
+  startVelocity: 55,
+});
+fire(0.2, {
+  spread: 60,
+});
+fire(0.35, {
+  spread: 100,
+  decay: 0.91,
+  scalar: 0.8
+});
+fire(0.1, {
+  spread: 120,
+  startVelocity: 25,
+  decay: 0.92,
+  scalar: 1.2
+});
+fire(0.1, {
+  spread: 120,
+  startVelocity: 45,
+});
+}
+
+function fire(particleRatio, opts) {
+  confetti({
+    ...defaults,
+    ...opts,
+    particleCount: Math.floor(count * particleRatio)
+  });
 }
 
 </script>
